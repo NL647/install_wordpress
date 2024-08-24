@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+
+  vars_files:
+    - group_vars/all.yml
+
+  roles:
+    - role: apache
+    - role: mariadb
+    - role: wordpress
+    - role: modsecurity
+    - role: ufw
+    - role: fail2ban
+

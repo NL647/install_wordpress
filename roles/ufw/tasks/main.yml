@@ -1,0 +1,13 @@
+---
+- name: Allow HTTP and HTTPS through UFW
+  ansible.builtin.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 'http'
+    - 'https'
+
+- name: Ensure UFW is enabled
+  ansible.builtin.ufw:
+    state: enabled

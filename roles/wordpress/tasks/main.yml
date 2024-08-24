@@ -1,0 +1,40 @@
+---
+- name: Download latest WordPress
+  ansible.builtin.unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: /var/www/html
+    remote_src: yes
+
+- name: Set correct permissions on WordPress directory
+  ansible.builtin.file:
+    path: /var/www/html/wordpress
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Ensure wp-config.php exists
+  ansible.builtin.file:
+    path: /var/www/html/wp-config.php
+    state: touch
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Set WordPress security keys in wp-config.php
+  ansible.builtin.blockinfile:
+    path: /var/www/html/wp-config.php
+    block: |
+      define('AUTH_KEY',         '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('SECURE_AUTH_KEY',  '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('LOGGED_IN_KEY',    '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('NONCE_KEY',        '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('AUTH_SALT',        '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('SECURE_AUTH_SALT', '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('LOGGED_IN_SALT',   '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+      define('NONCE_SALT',       '{{ lookup("password", "/dev/null length=64 chars=ascii_letters,digits,special") }}');
+    insertafter: "define('DB_COLLATE', '');"
+    state: present
+    owner: www-data
+    group: www-data
+    mode: '0644'

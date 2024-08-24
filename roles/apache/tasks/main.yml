@@ -1,0 +1,28 @@
+---
+- name: Install Apache2
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+    update_cache: yes
+
+- name: Enable Apache2 Service
+  ansible.builtin.systemd:
+    name: apache2
+    enabled: yes
+    state: started
+
+- name: Copy WordPress configuration file
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/html/wp-config.php
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Ensure /var/www/html is owned by www-data
+  ansible.builtin.file:
+    path: /var/www/html
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes

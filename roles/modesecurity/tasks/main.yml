@@ -1,0 +1,34 @@
+---
+- name: Enable ModSecurity and set recommended rules
+  block:
+    - name: Ensure ModSecurity module is enabled
+      ansible.builtin.command: a2enmod security2
+      args:
+        warn: false
+      notify: Restart Apache
+
+    - name: Copy ModSecurity recommended configuration
+      ansible.builtin.copy:
+        src: /etc/modsecurity/modsecurity.conf-recommended
+        dest: /etc/modsecurity/modsecurity.conf
+        remote_src: yes
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable ModSecurity rules in configuration
+      ansible.builtin.lineinfile:
+        path: /etc/modsecurity/modsecurity.conf
+        regexp: '^SecRuleEngine\s+DetectionOnly'
+        line: 'SecRuleEngine On'
+        state: present
+        backup: yes
+
+  notify:
+    - Restart Apache
+
+- name: Restart Apache if required
+  ansible.builtin.systemd:
+    name: apache2
+    state: restarted
+  listen: Restart Apache

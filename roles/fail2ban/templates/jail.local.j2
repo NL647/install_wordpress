@@ -1,0 +1,13 @@
+[apache-auth]
+enabled  = true
+filter   = apache-auth
+action   = iptables[name=apache-auth, port=http, protocol=tcp]
+logpath  = /var/log/apache*/*error.log
+maxretry = 3
+
+[mariadb-auth]
+enabled  = true
+filter   = mariadb-auth
+action   = iptables[name=mariadb-auth, port=mysql, protocol=tcp]
+logpath  = /var/log/mysql/mysql.log
+maxretry = 3
