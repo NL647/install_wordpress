@@ -1,34 +1,34 @@
 ---
-- name: Install MariaDB Server
+- name: Install_MariaDB_Server
   ansible.builtin.apt:
     name: mariadb-server
     state: present
 
-- name: Start MariaDB service
+- name: Start_MariaDB_service
   ansible.builtin.systemd:
     name: mariadb
     enabled: yes
     state: started
 
-- name: Secure MariaDB
+- name: Secure_MariaDB
   mysql_secure_installation:
     login_user: root
     login_password: ""
     user: "{{ db_user }}"
     password: "{{ db_password }}"
 
-- name: Create WordPress database
+- name: Create_WordPress_database
   mysql_db:
     name: wordpress
     state: present
     login_user: root
     login_password: "{{ db_password }}"
 
-- name: Create WordPress user
+- name: Create_WordPress_user
   mysql_user:
     name: "{{ db_user }}"
     password: "{{ db_password }}"
-    priv: 'wordpress.*:ALL'
+    priv: "wordpress.*:ALL"
     state: present
     login_user: root
     login_password: "{{ db_password }}"
