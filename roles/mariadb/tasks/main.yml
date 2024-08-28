@@ -23,9 +23,7 @@
     disallow_root_login_remotely: true
     remove_test_db: true
     register: secure
-
-- debug:
-        var: secure    
+ 
 
 - name: Create_WordPress_database
   mysql_db:
