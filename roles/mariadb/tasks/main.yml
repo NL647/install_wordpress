@@ -10,7 +10,7 @@
     enabled: yes
     state: started
 
-- name: Secure MariaDB Installation
+- name: Secure MariaDB
   mysql_secure_installation:
     login_user: root
     login_password: ""
