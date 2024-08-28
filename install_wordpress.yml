@@ -9,7 +9,6 @@
     - role: apache
     - role: mariadb
     - role: wordpress
-    - role: modsecurity
     - role: ufw
     - role: fail2ban
 
