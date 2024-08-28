@@ -24,7 +24,7 @@
     remove_test_db: true
     register: secure
 
-    - debug:
+- debug:
         var: secure    
 
 - name: Create_WordPress_database
