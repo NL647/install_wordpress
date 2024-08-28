@@ -9,20 +9,6 @@
     name: mariadb
     enabled: yes
     state: started
-
-- name: Secure_MariaDB
-  mysql_secure_installation:
-    login_password: ''
-    new_password: '{{ db_user }}'
-    user: root
-    name: '{{ db_user }}'
-    login_host: localhost
-    hosts: ['localhost', '127.0.0.1', '::1']
-    change_root_password: true
-    remove_anonymous_user: true
-    disallow_root_login_remotely: true
-    remove_test_db: true
-    register: secure
  
 
 - name: Create_WordPress_database
@@ -30,13 +16,13 @@
     name: wordpress
     state: present
     login_user: root
-    login_password: "{{ db_password }}"
+    login_password: "123456"
 
 - name: Create_WordPress_user
   mysql_user:
-    name: "{{ db_user }}"
-    password: "{{ db_password }}"
+    name: "root"
+    password: "123456"
     priv: "wordpress.*:ALL"
     state: present
     login_user: root
-    login_password: "{{ db_password }}"
+    login_password: ""
