@@ -12,7 +12,7 @@
  
 
 - name: Create_WordPress_database
-  community.mysql.mysql_db:
+  community.mysql:
     name: wordpress
     state: present
     login_user: root
