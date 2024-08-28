@@ -13,8 +13,9 @@
 - name: Secure_MariaDB
   mysql_secure_installation:
         login_password: ''
-        new_password: 'password22'
+        new_password: "{{ db_user }}"
         user: root
+        name: "{{ db_user }}"
         login_host: localhost
         hosts: ['localhost', '127.0.0.1', '::1']
         change_root_password: true
